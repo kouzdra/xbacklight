@@ -66,6 +66,18 @@ missing_arg (const char *option)
     usage(1);
 }
 
+static int * steps = NULL;
+static int n_steps = -1;
+
+static int
+fill_step (int argc, char **argv, int argp);
+
+static int
+fill_fib (int argc, char **argv, int argp);
+
+static int
+fill_arg (int argc, char **argv, int argp);
+
 static long
 backlight_get (xcb_connection_t *conn, xcb_randr_output_t output)
 {
@@ -345,3 +357,22 @@ main (int argc, char **argv)
 
     return 0;
 }
+
+static int
+fill_step (int argc, char **argv, int argp)
+{
+  return argp;
+}
+
+static int
+fill_fib (int argc, char **argv, int argp)
+{
+  return argp;
+}
+
+static int
+fill_arg (int argc, char **argv, int argp)
+{
+  return argp;
+}
+
