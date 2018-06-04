@@ -66,8 +66,8 @@ missing_arg (const char *option)
     usage(1);
 }
 
-static int * steps = NULL;
-static int n_steps = -1;
+static int * hi_steps = NULL;
+static int n_hi_steps = -1;
 
 static int
 fill_step (int argc, char **argv, int argp);
