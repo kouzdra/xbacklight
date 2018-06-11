@@ -37,6 +37,11 @@
 #include <unistd.h>
 
 typedef enum { Get, Set, Inc, Dec } op_t;
+typedef enum { Abs, Fib, Pow, Decimal } mod_t;
+
+static long fib_values [] = {0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 100};
+static long dec_values [] = {0, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+static long pow_values [] = {0, 1, 2, 4, 8, 16, 32, 64, 100};
 
 static char *program_name;
 
@@ -68,15 +73,6 @@ missing_arg (const char *option)
 
 static int * hi_steps = NULL;
 static int n_hi_steps = -1;
-
-static int
-fill_step (int argc, char **argv, int argp);
-
-static int
-fill_fib (int argc, char **argv, int argp);
-
-static int
-fill_arg (int argc, char **argv, int argp);
 
 static long
 backlight_get (xcb_connection_t *conn, xcb_randr_output_t output)
@@ -126,6 +122,7 @@ backlight_set (xcb_connection_t *conn, xcb_randr_output_t output, long value)
 				      32, XCB_PROP_MODE_REPLACE,
 				      1, (unsigned char *)&value);
 }
+
 
 int
 main (int argc, char **argv)
@@ -356,23 +353,5 @@ main (int argc, char **argv)
     xcb_aux_sync (conn);
 
     return 0;
-}
-
-static int
-fill_step (int argc, char **argv, int argp)
-{
-  return argp;
-}
-
-static int
-fill_fib (int argc, char **argv, int argp)
-{
-  return argp;
-}
-
-static int
-fill_arg (int argc, char **argv, int argp)
-{
-  return argp;
 }
 
