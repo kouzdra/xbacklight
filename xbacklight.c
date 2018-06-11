@@ -36,11 +36,10 @@
 #include <string.h>
 #include <unistd.h>
 
-typedef enum { Get, Set, Inc, Dec } op_t;
-typedef enum { Abs, Fib, Pow, Decimal } mod_t;
+typedef enum { Get, Set, Inc, Dec, IncPow2, DecPow2, IncFib, DecFib } op_t;
 
 static long fib_values [] = {0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 100};
-static long dec_values [] = {0, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+//static long dec_values [] = {0, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 static long pow_values [] = {0, 1, 2, 4, 8, 16, 32, 64, 100};
 
 static char *program_name;
@@ -55,6 +54,10 @@ usage (int exitcode)
             "  -display <display> or -d <display>\n"
             "  -help\n"
             "  -version\n"
+            "  -fib\n"
+            "  +fib\n"
+            "  -pow2\n"
+            "  +pow2\n"
             "  -set <percentage> or = <percentage>\n"
             "  -inc <percentage> or + <percentage>\n"
             "  -dec <percentage> or - <percentage>\n"
@@ -70,9 +73,6 @@ missing_arg (const char *option)
     fprintf(stderr, "%s: %s requires an argument\n", program_name, option);
     usage(1);
 }
-
-static int * hi_steps = NULL;
-static int n_hi_steps = -1;
 
 static long
 backlight_get (xcb_connection_t *conn, xcb_randr_output_t output)
@@ -180,6 +180,26 @@ main (int argc, char **argv)
 	    op = Inc;
 	    value = atof (argv[i] + 1);
 	    continue;
+	}
+      if (!strcmp (argv[i], "-fib"))
+	{
+	  op = DecFib;
+	  continue;
+	}
+      if (!strcmp (argv[i], "+fib"))
+	{
+	  op = IncFib;
+	  continue;
+	}
+      if (!strcmp (argv[i], "-pow2"))
+	{
+	  op = DecPow2;
+	  continue;
+	}
+      if (!strcmp (argv[i], "+pow2"))
+	{
+	  op = IncPow2;
+	  continue;
 	}
 	if (!strcmp (argv[i], "-dec") || !strcmp (argv[i], "-"))
 	{
