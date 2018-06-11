@@ -40,7 +40,7 @@ typedef enum { Get, Set, Inc, Dec, IncPow2, DecPow2, IncFib, DecFib } op_t;
 
 static long fib_values [] = {0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 100};
 //static long dec_values [] = {0, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100};
-static long pow_values [] = {0, 1, 2, 4, 8, 16, 32, 64, 100};
+static long pow2_values [] = {0, 1, 2, 4, 8, 16, 32, 64, 100};
 
 static char *program_name;
 
@@ -123,6 +123,24 @@ backlight_set (xcb_connection_t *conn, xcb_randr_output_t output, long value)
 				      1, (unsigned char *)&value);
 }
 
+
+static long
+find_dec (long cur, long vec[], int len)
+{
+  for (int i = len; ; )
+    if (i == 0 || cur > vec [--i])
+      return vec [i];
+  
+}
+
+static long
+find_inc (long cur, long vec[], int len)
+{
+  for (int i = 0; ; )
+    if (i == len || cur > vec [i ++])
+      return vec [i-1];
+  
+}
 
 int
 main (int argc, char **argv)
@@ -344,6 +362,18 @@ main (int argc, char **argv)
 			case Dec:
 			    new = cur - set;
 			    break;
+			case DecFib:
+			  new = min + find_dec (cur, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  break;
+			case IncFib:
+			  new = min + find_inc (cur, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  break;
+			case DecPow2:
+			  new = min + find_dec (cur, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values)) * (max - min) / 100;
+			  break;
+			case IncPow2:
+			  new = min + find_inc (cur, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values))  * (max - min) / 100;
+			  break;
 			default:
 			    xcb_aux_sync (conn);
 			    return 1;
