@@ -130,16 +130,14 @@ find_dec (long cur, long vec[], int len)
   for (int i = len; ; )
     if (i == 0 || cur > vec [--i])
       return vec [i];
-  
 }
 
 static long
 find_inc (long cur, long vec[], int len)
 {
   for (int i = 0; ; )
-    if (i == len || cur > vec [i ++])
+    if (i == len || cur < vec [i ++])
       return vec [i-1];
-  
 }
 
 int
@@ -331,6 +329,8 @@ main (int argc, char **argv)
 	    double	min, max;
 	    double	set;
 
+	    double cur_pct;
+
 	    cur = backlight_get (conn, output);
 	    if (cur != -1)
 	    {
@@ -348,6 +348,8 @@ main (int argc, char **argv)
 		    min = values[0];
 		    max = values[1];
 
+		    cur_pct = (cur - min) * 100 / (max - min);
+
 		    if (op == Get) {
 			printf ("%f\n", (cur - min) * 100 / (max - min));
 		    } else {
@@ -363,16 +365,20 @@ main (int argc, char **argv)
 			    new = cur - set;
 			    break;
 			case DecFib:
-			  new = min + find_dec (cur, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  new = min + find_dec (cur_pct, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			case IncFib:
-			  new = min + find_inc (cur, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  new = min + find_inc (cur_pct, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			case DecPow2:
-			  new = min + find_dec (cur, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values)) * (max - min) / 100;
+			  new = min + find_dec (cur_pct, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values)) * (max - min) / 100;
+			  printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			case IncPow2:
-			  new = min + find_inc (cur, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values))  * (max - min) / 100;
+			  new = min + find_inc (cur_pct, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values))  * (max - min) / 100;
+			  printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			default:
 			    xcb_aux_sync (conn);
