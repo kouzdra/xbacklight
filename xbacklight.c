@@ -374,20 +374,20 @@ main (int argc, char **argv)
 			    new = cur - set;
 			    break;
 			case DecFib:
-			  new = min + find_dec (cur_pct, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
-			  printf ("%f\n", (new - min) * 100 / (max - min));
+			  new = min + find_dec (rnd (cur_pct), fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  //printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			case IncFib:
 			  new = min + find_inc (rnd (cur_pct), fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
-			  printf ("%f -> %f\n", cur_pct, (new - min) * 100 / (max - min));
+			  //printf ("%f -> %f\n", cur_pct, (new - min) * 100 / (max - min));
 			  break;
 			case DecPow2:
-			  new = min + find_dec (cur_pct, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values)) * (max - min) / 100;
-			  printf ("%f\n", (new - min) * 100 / (max - min));
+			  new = min + find_dec (rnd (cur_pct), pow2_values, sizeof (pow2_values) / sizeof (*pow2_values)) * (max - min) / 100;
+			  //printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			case IncPow2:
-			  new = min + find_inc (cur_pct, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values))  * (max - min) / 100;
-			  printf ("%f\n", (new - min) * 100 / (max - min));
+			  new = min + find_inc (rnd (cur_pct), pow2_values, sizeof (pow2_values) / sizeof (*pow2_values))  * (max - min) / 100;
+			  //printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			default:
 			    xcb_aux_sync (conn);
