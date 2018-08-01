@@ -46,6 +46,15 @@ static char *program_name;
 
 static xcb_atom_t backlight, backlight_new, backlight_legacy;
 
+static long rnd (float a) 
+{
+   long fl_a = a;
+   if (a - fl_a < 0.5)
+     return fl_a;
+   else
+     return (long) (a + 1);
+}
+
 static void
 usage (int exitcode)
 {
@@ -369,8 +378,8 @@ main (int argc, char **argv)
 			  printf ("%f\n", (new - min) * 100 / (max - min));
 			  break;
 			case IncFib:
-			  new = min + find_inc (cur_pct, fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
-			  printf ("%f\n", (new - min) * 100 / (max - min));
+			  new = min + find_inc (rnd (cur_pct), fib_values, sizeof (fib_values) / sizeof (*fib_values)) * (max - min) / 100;
+			  printf ("%f -> %f\n", cur_pct, (new - min) * 100 / (max - min));
 			  break;
 			case DecPow2:
 			  new = min + find_dec (cur_pct, pow2_values, sizeof (pow2_values) / sizeof (*pow2_values)) * (max - min) / 100;
